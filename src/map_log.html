@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Steer Clear</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  </head>
+  <body>
+    <div id="map" style="height: 1200px; width: 100%;"></div>
+    <script>
+      const map = L.map("map").setView([10.3255, 76.0421], 8.4); // Center on Kerala
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+
+      // Add markers for each location
+      const marker1 = L.marker([10.8505, 76.2711]).addTo(map).bindPopup("Location 1");
+      const marker2 = L.marker([10.8562, 76.2900]).addTo(map).bindPopup("Tiger Spotted - 23/02/2024");
+	const marker3 = L.marker([11.2300, 76.03]).addTo(map).bindPopup("Location 2");
+	const marker4 = L.marker([12.105, 77.0412]).addTo(map).bindPopup("Location 3");
+
+	const marker6 = L.marker([12.105, 76.2711]).addTo(map).bindPopup("Location 5");
+	const marker7 = L.marker([11.6795, 77.6767]).addTo(map).bindPopup("Location61");
+	const marker8 = L.marker([10.9456, 78.0000]).addTo(map).bindPopup("Location 7");
+      
+
+      // Add more markers as needed
+    </script>
+  </body>
+</html>
+
+
+
+([10.5752, 76.279505],[12.4156,76.034525],[12.4738,77.4270],[10.4612,77.4344])
+
+([10.5752,12.4738],[76.034525,77.4344]

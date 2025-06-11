@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Map with Markers</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: linear-gradient(135deg, #f8f9fa 60%, #e0f7fa 100%);
+        min-height: 100vh;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        background: #223044;
+        color: #fff;
+        padding: 18px 32px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      }
+      .logo {
+        height: 54px;
+        margin-right: 18px;
+      }
+      .title {
+        font-size: 2.2rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+        flex: 1;
+      }
+      .message {
+        color: #f39c12;
+        font-size: 1.2rem;
+      }
+      .nav-btn {
+        background: #fff;
+        color: #223044;
+        border: none;
+        font-size: 1.7rem;
+        padding: 7px 18px;
+        border-radius: 7px;
+        cursor: pointer;
+        margin-left: 18px;
+        transition: background 0.2s, color 0.2s;
+      }
+      .nav-btn:hover {
+        background: #27ae60;
+        color: #fff;
+      }
+      @media (max-width: 700px) {
+        .header { flex-direction: column; align-items: flex-start; padding: 12px 10px; }
+        .logo { margin-bottom: 8px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <img class="logo" src="../assets/logo.png" alt="Logo">
+      <span class="title">SAFARi</span>
+      <p class="message">Markers show the five most recent elephant spottings</p>
+      <button class="nav-btn" onclick="window.location.href='../index.html'">Home</button>
+      <button class="nav-btn" onclick="window.location.href='recog.html'">Detection</button>
+    </div>
+    <div id="map" style="height: 1200px; width: 100%;"></div>
+    <script>
+      const map = L.map("map").setView([10.8505, 76.2711], 8); // Center on Kerala
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+
+      let markers = [];
+      let lastData = null;
+
+      function arraysEqual(a, b) {
+        return JSON.stringify(a) === JSON.stringify(b);
+      }
+
+      function clearMarkers() {
+        markers.forEach(marker => map.removeLayer(marker));
+        markers = [];
+      }
+
+      // Function to make GET request and handle response
+      function Get() {
+        fetch('http://localhost:3000/send-json', {
+          method: 'GET',
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Only update if data has changed
+          if (!arraysEqual(data, lastData)) {
+            clearMarkers();
+            data.forEach((item, i) => {
+              let marker = L.marker([item.xcord, item.ycord]).addTo(map).bindPopup("Location " + i);
+              markers.push(marker);
+            });
+            lastData = data;
+          }
+        })
+        .catch(error => {
+          console.error('Error receiving data from server:', error);
+          alert('Error receiving data from server');
+        });
+      }
+
+      // Poll every 5 seconds, but only update markers if data changes
+      setInterval(Get, 5000);
+      Get();
+      
+    </script>
+  </body>
+</html>
