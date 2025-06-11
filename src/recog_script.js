@@ -81,7 +81,7 @@ function predictWebcam() {
             let x = (Math.random() * 2) + 10.5752;
             let obj = { "xcord": x, "ycord": y };
             alert('BEEEEEEP');
-            fetch('http://localhost:3000/send-coords', {
+            fetch('https://safari-gual.onrender.com/send-coords', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
