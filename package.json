@@ -1,7 +1,8 @@
 {
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"node ./src/server.js\" \"live-server --port=5500 --open=index.html\""
+    "start": "concurrently \"node ./src/server.js\" \"live-server --port=5500 --open=index.html\"",
+    "server": "node ./src/server.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.7",
