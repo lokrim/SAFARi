@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const supabase=require('./supabase')
+require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') });
+require('@supabase/supabase-js');
 
 const app = express();
 const port = 3000;
-const cors=require('cors')
+const cors=require('cors');
+const { createClient } = require('@supabase/supabase-js');
 // Parse JSON bodies
 const corsOptions={origin:"*"}
 app.use(bodyParser.json());
@@ -14,6 +16,10 @@ app.use(cors(corsOptions))
 app.get('/', (req, res) => {
     res.send('Server is running');
 });
+
+const supabaseUrl = 'https://ygpwadbhvaqzulwjnbrz.supabase.co';
+const supabaseKey = process.env.SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 app.get('/send-json', async (req, res) => {
    try {
